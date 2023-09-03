@@ -1,5 +1,11 @@
 import requests
 
+# SET YOUR VALUES
+NAMES = "Иванов Иван"
+PHONE = "+123456789"
+EMAIL = "ivanov@example.com"
+# END SET YOUR VALUES
+
 username = "user"
 password = "user"
 
@@ -8,9 +14,9 @@ credentials = (username, password)
 base_url = "http://localhost:8000"
 
 new_contact_data = {
-    "names": "Иванов Иван",
-    "phone": "+123456789",
-    "email": "ivanov@example.com"
+    "names": NAMES,
+    "phone": PHONE,
+    "email": EMAIL
 }
 
 create_contact_url = f"{base_url}/contacts/"

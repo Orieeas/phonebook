@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, or_
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Session
 from pydantic import BaseModel
 from typing import List
 import random
@@ -136,3 +136,18 @@ def get_contact(credentials: HTTPBasicCredentials = Depends(security), db=Depend
         raise HTTPException(status_code=404, detail="Контакт не найден")
 
     return contact
+
+
+@app.get("/contacts_search", response_model=List)
+def contacts_search(query: str, credentials: HTTPBasicCredentials = Depends(security), db: Session = Depends(get_db)):
+    def search_contacts_by_name(db: Session, query: str):
+        contacts = db.query(Contact).filter(or_(Contact.names.ilike(f"%{query}%"))).all()
+        return contacts
+
+    if credentials.username != correct_username or credentials.password != correct_password:
+        raise HTTPException(status_code=401, detail="Неправильные учетные данные")
+
+    contacts = search_contacts_by_name(db, query)
+    if not contacts:
+        raise HTTPException(status_code=404, detail="Контакт не найден")
+    return contacts
