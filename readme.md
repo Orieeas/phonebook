@@ -1,4 +1,4 @@
-<h1 align="center">Hi there, I'm <a href="Alex M" target="_blank">Alex</a> 
+<h1 align="center">Hi there, I'm <a href="Alex M" target="https://github.com/Orieeas">Alex</a> 
 <img src="https://github.com/blackcater/blackcater/raw/main/images/Hi.gif" height="32"/></h1>
 
 # Функции
